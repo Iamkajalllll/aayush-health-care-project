@@ -1,17 +1,16 @@
-kind: Deployment
 apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: healthcare
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: healthcare
+      app: healthcare
   template:
     metadata:
-      name: testp1
       labels:
-        name: healthcare
+        app: healthcare
     spec:
       containers:
         - name: healthcare
@@ -22,15 +21,16 @@ spec:
 
 ---
 
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: healthcare
 spec:
+  selector:
+    app: healthcare 
+  type: NodePort  
   ports:
     - port: 80
       targetPort: 8082 
       nodePort:  30007
-  selector:
-    name: healthcare 
-  type: NodePort  
+ 
